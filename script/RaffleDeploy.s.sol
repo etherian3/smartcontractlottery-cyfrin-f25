@@ -21,7 +21,7 @@ contract RaffleDeploy is Script {
             config.vrfCoordinator,
             config.gasLane,
             config.callbackGasLimit,
-            config.subscriptionId
+            uint32(config.subscriptionId)
         );
         vm.stopBroadcast();
         return (raffle, helperConfig);

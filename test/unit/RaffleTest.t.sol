@@ -23,6 +23,8 @@ contract RaffleTest is Test {
     function setUp() external {
         RaffleDeploy raffleDeploy = new RaffleDeploy();
         (raffle, helperConfig) = raffleDeploy.raffleDeploy();
+        vm.deal(PLAYER, STARTING_PLAYER_BALANCE);
+
         HelperConfig.NetworkConfig memory config = helperConfig.getConfig();
         entranceFee = config.entranceFee;
         interval = config.interval;
@@ -42,5 +44,15 @@ contract RaffleTest is Test {
         // Act   // Asset
         vm.expectRevert(Raffle.Raffle__NotEnoughEth.selector);
         raffle.enterRaffle();
+    }
+
+    function testRaffleRecordsPlayersWhenTheyEnter() public {
+        // Arrange
+        vm.prank(PLAYER);
+        // Act
+        raffle.enterRaffle{value: entranceFee}();
+        // Asset
+        address playerRecorded = raffle.getPlayer(0);
+        assert(playerRecorded == PLAYER);
     }
 }

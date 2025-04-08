@@ -61,7 +61,7 @@ contract Raffle is VRFConsumerBaseV2Plus {
     uint32 private immutable i_callbackGasLimit;
     address payable[] private s_players;
     address private s_recentWinner;
-    RaffleState private s_raffleState;
+    RaffleState private s_raffleState; // start as open
     // ** @dev The duration of the lottery in seconds */
     uint256 private s_lastTimeStamp;
 
@@ -189,5 +189,9 @@ contract Raffle is VRFConsumerBaseV2Plus {
 
     function getEnteranceFee() external view returns (uint256) {
         return i_entranceFee;
+    }
+
+    function getRaffleState() external view returns (RaffleState) {
+        return s_raffleState;
     }
 }

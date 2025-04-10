@@ -92,7 +92,16 @@ contract AddConsumer is Script {
         address contractToAddVrf,
         address vrfCoordinator,
         uint256 subId
-    ) public {}
+    ) public {
+        console.log("Adding consumer contract: ", contractToAddVrf);
+        console.log("To vrfCoordinator: ", vrfCoordinator);
+        console.log("On ChainId: ", block.chainid);
+        vm.startBroadcast();
+        VRFCoordinatorV2_5Mock(vrfCoordinator).addConsumer(
+            subId, contractToAddVrf
+        );
+        vm.stopBroadcast();
+    }
 
     function run() public {
         address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment(
